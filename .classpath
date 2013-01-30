@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="build/classes/model" path="src/model"/>
+	<classpathentry kind="src" output="build/classes/action" path="src/action"/>
+	<classpathentry kind="src" output="build/classes/test" path="src/test"/>
+	<classpathentry kind="src" output="build/classes/swing" path="src/swing"/>
+	<classpathentry kind="src" output="build/classes/examples" path="src/examples"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/snakeyaml-1.9.jar"/>
+	<classpathentry kind="lib" path="lib/testng-6.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang3-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/jply-0.2.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
