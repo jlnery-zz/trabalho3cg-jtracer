@@ -92,7 +92,15 @@ public class TracerPanel extends JPanel {
     add(renderBtn, BorderLayout.PAGE_START);
   }
   
-  public DrawablePanel getDrawablePanel() {
+  public Scene getScene() {
+	return scene;
+}
+
+public void setScene(Scene scene) {
+	this.scene = scene;
+}
+
+public DrawablePanel getDrawablePanel() {
     return drawablePanel;
   }
   

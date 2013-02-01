@@ -13,9 +13,10 @@ import org.jtrace.swing.TracerPanel;
 public class MainWindow extends JFrame {
 
   private static final long serialVersionUID = 8122517505454630633L;
+  public static TracerPanel tracePanel;
 
   public MainWindow() {
-    setSize(700, 650);
+    setSize(700, 700);
     setTitle("JTrace");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -23,15 +24,15 @@ public class MainWindow extends JFrame {
   }
 
   private void init() {
+    getContentPane().setLayout(null);
     JPanel mainPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-
-    mainPanel.add(createTracerPanel());
-    mainPanel.add(createTracerPanel());
-    
-    add(mainPanel);
+    mainPanel.setBounds(0, 150, 700, 628);
+    tracePanel = createTracerPanel();
+    mainPanel.add(tracePanel);    
+    getContentPane().add(mainPanel);
   }
 
-  private JPanel createTracerPanel() {
+  private TracerPanel createTracerPanel() {
 	Tracer tracer = new Tracer();
 	
 	tracer.addShaders(Shaders.ambientShader(), Shaders.diffuseShader());
