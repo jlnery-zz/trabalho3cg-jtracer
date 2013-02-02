@@ -13,12 +13,9 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JList;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import org.jtrace.Material;
 import org.jtrace.Materials;
@@ -34,7 +31,6 @@ import org.jtrace.primitives.ColorRGB;
 import org.jtrace.primitives.Point3D;
 import org.jtrace.primitives.ReflectanceCoefficient;
 import org.jtrace.primitives.Vector3D;
-import javax.swing.JLabel;
 
 public class App {
 
@@ -45,6 +41,7 @@ public class App {
 	private static Scene scene;
 	private static JComboBox cbCamera;
 	private static JComboBox cbLight;
+	private static JComboBox cbZoom;
 
 	public static void main(final String[] args) {
 
@@ -96,8 +93,8 @@ public class App {
 		panel.add(tfPly);
 		tfPly.setColumns(10);
 
-		String[] data = { "Frente", "Esquerda", "Traz", "Direita", "Baixo", "Cima" };
-		cbCamera = new JComboBox(data);
+		String[] cameraPosition = { "Frente", "Esquerda", "Traz", "Direita", "Cima" };
+		cbCamera = new JComboBox(cameraPosition);
 		cbCamera.setBounds(324, 8, 92, 24);
 		cbCamera.setSelectedIndex(0);
 		cbCamera.addActionListener(new ActionListener() {			
@@ -118,7 +115,7 @@ public class App {
 		panel.add(lblLight);
 
 		
-		cbLight = new JComboBox(data);
+		cbLight = new JComboBox(cameraPosition);
 		cbLight.setSelectedIndex(0);
 		cbLight.setBounds(324, 50, 92, 24);
 		cbLight.addActionListener(new ActionListener() {			
@@ -130,8 +127,25 @@ public class App {
 		});
 		panel.add(cbLight);
 		
+		JLabel lblZoom = new JLabel("Zoom:");
+		lblZoom.setBounds(270, 93, 61, 16);
+		panel.add(lblZoom);
+		
+		Integer[] zoom = { 0, 1, 2};
+		cbZoom = new JComboBox(zoom);
+		cbZoom.setSelectedIndex(0);
+		cbZoom.setBounds(324, 90, 92, 24);
+		cbZoom.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainWindow.tracePanel.setScene(createScene());
+				
+			}
+		});
+		panel.add(cbZoom);
+		
 		window = new MainWindow();
-		window.getContentPane().add(panel, BorderLayout.NORTH);
+		window.getContentPane().add(panel, BorderLayout.NORTH);	
 		window.setVisible(true);
 	}
 
@@ -164,9 +178,6 @@ public class App {
 		case 3:
 			eye = new Point3D(100, 0, 0);
 			break;
-		case 4:
-			eye = new Point3D(0, -100, 0);
-			break;
 		default:
 			eye = new Point3D(0, +100, 0);
 		}
@@ -183,12 +194,17 @@ public class App {
 		case 2:
 			light = new Light(0, 0, -100);
 			break;
-		default:
+		case 3:
 			light = new Light(100, 0, 0);
+			break;
+		default:
+			light = new Light(0, 100, 0);
 		}
 
 		final Camera pinHoleCamera = new PinHoleCamera(eye, lookAt, up);
-		pinHoleCamera.setZoomFactor(10);
+		
+		pinHoleCamera.setZoomFactor(Math.pow(10, new Double(cbZoom.getSelectedIndex())));
+		
 		scene.add(plane2).add(light).setCamera(pinHoleCamera);
 		return scene;
 	}
