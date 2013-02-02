@@ -20,16 +20,19 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.jtrace.Material;
 import org.jtrace.Materials;
 import org.jtrace.Scene;
 import org.jtrace.cameras.Camera;
 import org.jtrace.cameras.PinHoleCamera;
 import org.jtrace.examples.io.SimplePLYExample;
+import org.jtrace.geometry.Plane;
 import org.jtrace.geometry.Triangle;
 import org.jtrace.io.PlyReader;
 import org.jtrace.lights.Light;
 import org.jtrace.primitives.ColorRGB;
 import org.jtrace.primitives.Point3D;
+import org.jtrace.primitives.ReflectanceCoefficient;
 import org.jtrace.primitives.Vector3D;
 import javax.swing.JLabel;
 
@@ -135,6 +138,15 @@ public class App {
 	public static Scene createScene() {
 
 		scene = updateTriangles();
+		
+		final ReflectanceCoefficient kAmbient = new ReflectanceCoefficient(0.07, 0.07, 0.07);
+        final ReflectanceCoefficient kDiffuse = new ReflectanceCoefficient(0.3, 0.3, 0.3);
+		
+		final Point3D planePoint = new Point3D(0, 20, 0);
+        final Vector3D planeNormal = new Vector3D(0, -1, 0);
+        final Material planeMaterial = new Material(ColorRGB.YELLOW, kAmbient, kDiffuse);
+        final Plane plane2 = new Plane(planePoint.multiply(-1), planeNormal.multiply(-1), planeMaterial);
+        
 
 		final Point3D lookAt = Point3D.ORIGIN;
 
@@ -171,7 +183,7 @@ public class App {
 
 		final Camera pinHoleCamera = new PinHoleCamera(eye, lookAt, up);
 		pinHoleCamera.setZoomFactor(10);
-		scene.add(light).setCamera(pinHoleCamera);
+		scene.add(plane2).add(light).setCamera(pinHoleCamera);
 		return scene;
 	}
 
