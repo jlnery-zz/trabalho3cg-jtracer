@@ -93,7 +93,7 @@ public class App {
 		panel.add(tfPly);
 		tfPly.setColumns(10);
 
-		String[] data = { "Frente", "Esquerda", "Traz", "Direita" };
+		String[] data = { "Frente", "Esquerda", "Traz", "Direita", "Baixo", "Cima" };
 		cbCamera = new JComboBox(data);
 		cbCamera.setBounds(324, 8, 92, 24);
 		cbCamera.setSelectedIndex(0);
@@ -149,8 +149,14 @@ public class App {
 		case 2:
 			eye = new Point3D(0, 0, -100);
 			break;
+		case 3:
+			eye = new Point3D(100, 0, 0);
+			break;
+		case 4:
+			eye = new Point3D(0, -100, 0);
+			break;
 		default:
-			eye = new Point3D(100, 0, 0);;
+			eye = new Point3D(0, +100, 0);
 		}
 		final Vector3D up = new Vector3D(0, 1, 0);
 
