@@ -1,15 +1,33 @@
 package org.jtrace.shader;
 
+import java.awt.image.BufferedImage;
+
+
 public class Shaders {
+	static Shader ambientShader;
+	static Shader diffuseShader;
+	static SpecularShader specularShader;
+	
 	public static Shader ambientShader() {
-		return new AmbientShader();
+		if(ambientShader == null){
+			ambientShader = new AmbientShader();
+		}
+		return ambientShader;
 	}
 	
 	public static Shader diffuseShader() {
-		return new DiffuseShader();
+		if(diffuseShader == null){
+			diffuseShader = new DiffuseShader();
+		}
+		return diffuseShader;
 	}
 	
 	public static Shader specularShader(double specularFactor) {
-		return new SpecularShader(specularFactor);
+		if(specularShader == null){
+			specularShader = new SpecularShader(specularFactor);
+		}else {
+			specularShader.setSpecularFactor(specularFactor);
+		}
+		return specularShader;
 	}
 }

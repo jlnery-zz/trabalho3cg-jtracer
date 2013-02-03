@@ -57,4 +57,8 @@ public class SpecularShader implements Shader {
 		return reflected;
 	}
 
+	public void setSpecularFactor(double specularFactor2) {
+		this.specularFactor = specularFactor2;
+	}
+
 }

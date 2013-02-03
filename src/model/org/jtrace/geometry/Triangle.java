@@ -1,5 +1,8 @@
 package org.jtrace.geometry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jtrace.Hit;
 import org.jtrace.Jay;
 import org.jtrace.Material;
@@ -97,5 +100,13 @@ public class Triangle extends GeometricObject {
 		}
 		
 		return new NotHit();
+	}
+	
+	public List<Vector3D> getVertices(){		
+		List<Vector3D> vertices = new ArrayList<Vector3D>();
+		vertices.add(a12);
+		vertices.add(a23);
+		vertices.add(a31);
+		return vertices;		
 	}
 }
