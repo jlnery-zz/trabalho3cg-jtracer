@@ -73,7 +73,18 @@ public class Triangle extends GeometricObject {
 		plane = new Plane(v1, normal.normal(), getMaterial());
 	}
 
-
+	public Point3D getV1(){
+		return v1;
+	}
+	
+	public Point3D getV2(){
+		return v2;
+	}
+	
+	public Point3D getV3(){
+		return v3;
+	}
+	
 	@Override
 	public Hit hit(Jay jay) {
 		Hit planeHit = plane.hit(jay);

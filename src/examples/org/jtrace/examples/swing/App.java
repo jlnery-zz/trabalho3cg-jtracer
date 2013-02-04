@@ -9,14 +9,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
+import javax.media.j3d.BoundingBox;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.vecmath.Point3d;
 
 import org.jtrace.Material;
 import org.jtrace.Materials;
@@ -268,7 +271,99 @@ public class App {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		Double maxX = -100000.0; 
+		Double maxY = -100000.0;
+		Double maxZ = -100000.0;
+		Double minX = 100000.0;
+		Double minY = 100000.0;
+		Double minZ = 100000.0;
+		
+		for (Triangle t : triangles) {
+			if(maxX < t.getV1().getX()){
+				maxX = t.getV1().getX();
+			}
+			if(maxY < t.getV1().getY()){
+				maxY = t.getV1().getY();
+			}
+			if(maxZ < t.getV1().getZ()){
+				maxZ = t.getV1().getZ();
+			}
+			if(minX > t.getV1().getX()){
+				minX = t.getV1().getX();
+			}
+			if(minY > t.getV1().getY()){
+				minY = t.getV1().getY();
+			}
+			if(minZ > t.getV1().getZ()){
+				minZ = t.getV1().getZ();
+			}
 
+			if(maxX < t.getV2().getX()){
+				maxX = t.getV2().getX();
+			}
+			if(maxY < t.getV2().getY()){
+				maxY = t.getV2().getY();
+			}
+			if(maxZ < t.getV2().getZ()){
+				maxZ = t.getV2().getZ();
+			}
+			if(minX > t.getV2().getX()){
+				minX = t.getV2().getX();
+			}
+			if(minY > t.getV2().getY()){
+				minY = t.getV2().getY();
+			}
+			if(minZ > t.getV2().getZ()){
+				minZ = t.getV2().getZ();
+			}
+			
+			if(maxX < t.getV3().getX()){
+				maxX = t.getV3().getX();
+			}
+			if(maxY < t.getV3().getY()){
+				maxY = t.getV3().getY();
+			}
+			if(maxZ < t.getV3().getZ()){
+				maxZ = t.getV3().getZ();
+			}
+			if(minX > t.getV3().getX()){
+				minX = t.getV3().getX();
+			}
+			if(minY > t.getV3().getY()){
+				minY = t.getV3().getY();
+			}
+			if(minZ > t.getV3().getZ()){
+				minZ = t.getV3().getZ();
+			}
+			
+		}
+
+		Point3d l = new Point3d(minX, minY, minZ);
+		Point3d u = new Point3d(maxX, maxY, maxZ);
+		System.out.println("Lower Corner " + l.toString());
+		System.out.println("Upper Corner " + u.toString());
+		
+		BoundingBox bb = new BoundingBox(l, u);
+		
+		for (Triangle t : triangles) {
+			Point3d p = new Point3d(t.getV1().getX(), t.getV1().getY(), t
+					.getV1().getZ());
+			System.out.println("Teste para o ponto: ");
+			System.out.println(p.toString());
+			System.out.println(bb.intersect(p));
+			p = new Point3d(t.getV2().getX(), t.getV2().getY(), t.getV2()
+					.getZ());
+			System.out.println("Teste para o ponto: ");
+			System.out.println(p.toString());
+			System.out.println(bb.intersect(p));
+			p = new Point3d(t.getV3().getX(), t.getV3().getY(), t.getV3()
+					.getZ());
+			System.out.println("Teste para o ponto: ");
+			System.out.println(p.toString());
+			System.out.println(bb.intersect(p));
+		}
+		
 		Scene scene = new Scene();
 
 		for (Triangle t : triangles) {
@@ -276,4 +371,5 @@ public class App {
 		}
 		return scene;
 	}
+
 }
