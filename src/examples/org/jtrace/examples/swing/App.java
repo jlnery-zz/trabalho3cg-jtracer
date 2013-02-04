@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.media.j3d.BoundingBox;
@@ -36,7 +35,6 @@ import org.jtrace.primitives.ColorRGB;
 import org.jtrace.primitives.Point3D;
 import org.jtrace.primitives.ReflectanceCoefficient;
 import org.jtrace.primitives.Vector3D;
-import org.jtrace.shader.Shaders;
 
 public class App {
 
@@ -104,7 +102,7 @@ public class App {
 		});
 		panel.add(btnTexturePlane);
 		
-		tfTexturePlane = new JTextField(SimplePLYExample.class.getResource("sea.jpg")
+		tfTexturePlane = new JTextField(SimplePLYExample.class.getResource("chess.jpg")
 				.getPath());
 		tfTexturePlane.setColumns(10);
 		tfTexturePlane.setBounds(144, 90, 134, 28);

@@ -62,7 +62,7 @@ public class TextureInteceptor implements TracerInterceptor {
 	@Override
 	public boolean shouldShade(Shader shader, Light light, Hit hit, Jay jay,
 			GeometricObject object) {
-		if (object.getClass().equals(Triangle.class) || object.getClass().equals(Plane.class)) {
+		if (object.getClass().equals(Triangle.class)) {
 			Point3D hitPoint = hit.getPoint(jay);
 			Vector3D radius = new Vector3D(Point3D.ORIGIN, hitPoint).normal();
 			Vector3D northPole = new Vector3D(Point3D.ORIGIN, new Point3D(0,
@@ -83,19 +83,24 @@ public class TextureInteceptor implements TracerInterceptor {
 			}
 			int upos;
 			int vpos;
-			if (object.getClass().equals(Triangle.class)) {
-				upos = Integer.valueOf(new Long(
-						Math.round((texturePly.getWidth() - 1) * u)).toString());
-				vpos = Integer.valueOf(new Long(
-						Math.round((texturePly.getHeight() - 1) * v)).toString());
-				object.getMaterial().setColor(new ColorRGB(texturePly.getRGB(upos, vpos)));
-			}else{
-				upos = Integer.valueOf(new Long(
-						Math.round((texturePlane.getWidth() - 1) * u)).toString());
-				vpos = Integer.valueOf(new Long(
-						Math.round((texturePlane.getHeight() - 1) * v)).toString());
-				object.getMaterial().setColor(new ColorRGB(texturePlane.getRGB(upos, vpos)));
-			}			
+			upos = Integer.valueOf(new Long(
+					Math.round((texturePly.getWidth() - 1) * u)).toString());
+			vpos = Integer.valueOf(new Long(
+					Math.round((texturePly.getHeight() - 1) * v)).toString());
+			object.getMaterial().setColor(new ColorRGB(texturePly.getRGB(upos, vpos)));			
+		}else if(object.getClass().equals(Plane.class)){
+			Point3D hitPoint = hit.getPoint(jay);
+			double u = Math.abs(hitPoint.getX());
+			double v = Math.abs(hitPoint.getZ());
+			
+			int upos = Integer.valueOf(new Long(
+					Math.round(u)%texturePlane.getWidth()).toString());
+			
+			int vpos = Integer.valueOf(new Long(
+					Math.round(v)%texturePlane.getHeight()).toString());
+			
+			object.getMaterial().setColor(new ColorRGB(texturePlane.getRGB(upos, vpos)));
+			
 		}
 		return true;
 	}
