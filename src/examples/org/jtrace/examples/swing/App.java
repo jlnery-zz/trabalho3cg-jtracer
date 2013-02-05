@@ -24,6 +24,7 @@ import org.jtrace.Material;
 import org.jtrace.Materials;
 import org.jtrace.Scene;
 import org.jtrace.cameras.Camera;
+import org.jtrace.cameras.OrthogonalCamera;
 import org.jtrace.cameras.PinHoleCamera;
 import org.jtrace.examples.io.SimplePLYExample;
 import org.jtrace.geometry.Plane;
@@ -47,6 +48,8 @@ public class App {
 	private static JComboBox cbLight;
 	private static JComboBox cbZoom;
 	private static JTextField tfTexturePlane;
+	private static JComboBox cbLightColor;
+	private static JComboBox cbCameraType;
 
 	public static void main(final String[] args) {
 
@@ -185,6 +188,41 @@ public class App {
 		
 		
 		
+		JLabel lblTipoCamera = new JLabel("Tipo camera:\n");
+		lblTipoCamera.setBounds(448, 12, 85, 16);
+		panel.add(lblTipoCamera);
+		
+	    String[] cameraType = {"Ortogonal", "Pin Hole"};
+		cbCameraType = new JComboBox(cameraType);
+		cbCameraType.setSelectedIndex(1);
+		cbCameraType.setBounds(533, 6, 92, 24);
+		cbCameraType.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainWindow.tracePanel.setScene(createScene());
+				
+			}
+		});
+		panel.add(cbCameraType);
+		
+		JLabel lblCorDaLuz = new JLabel("Cor da Luz:");
+		lblCorDaLuz.setBounds(448, 56, 73, 16);
+		panel.add(lblCorDaLuz);		
+
+	    String[] lightColor = {"Branca", "Preta", "Vermelha", "Verde", "Azul", "Amarela", "Roxa" };
+		cbLightColor = new JComboBox(lightColor);
+		cbLightColor.setSelectedIndex(0);
+		cbLightColor.setBounds(533, 50, 92, 24);
+		cbLightColor.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainWindow.tracePanel.setScene(createScene());
+				
+			}
+		});
+		panel.add(cbLightColor);
+		
+		
 		try {
 			window = new MainWindow(ImageIO.read(new File(tfTexturePly
 					.getText())), ImageIO.read(new File(tfTexturePlane
@@ -248,12 +286,44 @@ public class App {
 		default:
 			light = new Light(0, 100, 0);
 		}
+		
+		
+		switch (cbLightColor.getSelectedIndex()) {
+		case 0:
+			light.setColor(ColorRGB.WHITE);
+			break;
+		case 1:
+			light.setColor(ColorRGB.BLACK);
+			break;
+		case 2:
+			light.setColor(ColorRGB.RED);
+			break;
+		case 3:
+			light.setColor(ColorRGB.GREEN);
+			break;
+		case 4:
+			light.setColor(ColorRGB.BLUE);
+			break;
+		case 5:
+			light.setColor(ColorRGB.YELLOW);
+			break;
+		default:
+			light.setColor(ColorRGB.PURPLE);
+		}
 
-		final Camera pinHoleCamera = new PinHoleCamera(eye, lookAt, up);
+		final Camera camera;
+		switch (cbCameraType.getSelectedIndex()) {
+		case 0:
+			camera = new  OrthogonalCamera(eye, lookAt, up);
+			break;
+		default:
+			camera  = new PinHoleCamera(eye, lookAt, up);
+			break;
+		}
 		
-		pinHoleCamera.setZoomFactor(Math.pow(10, new Double(cbZoom.getSelectedIndex())));
+		camera.setZoomFactor(Math.pow(10, new Double(cbZoom.getSelectedIndex())));
 		
-		scene.add(plane2).add(light).setCamera(pinHoleCamera);
+		scene.add(plane2).add(light).setCamera(camera);
 		return scene;
 	}
 
@@ -369,5 +439,4 @@ public class App {
 		}
 		return scene;
 	}
-
 }

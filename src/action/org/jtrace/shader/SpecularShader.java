@@ -18,7 +18,8 @@ public class SpecularShader implements Shader {
 	
 	@Override
 	public ColorRGB shade(Light light, Hit hit, Jay jay, GeometricObject object) {
-		if (object.getMaterial().getkSpecular() == null) {
+		
+		if (object.getMaterial().getkSpecular() == null || object.getInShadow()) {
 			return ColorRGB.BLACK;
 		}
 		

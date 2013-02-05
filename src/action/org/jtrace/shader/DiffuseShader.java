@@ -12,6 +12,11 @@ import org.jtrace.primitives.Vector3D;
 
 public class DiffuseShader implements Shader {
 	public ColorRGB shade(Light light, Hit hit, Jay jay, GeometricObject object) {
+		
+		if (object.getInShadow()) {
+			return ColorRGB.BLACK;
+		}
+		
 		Material material = object.getMaterial();
 		ColorRGB objectColor = material.getColor();
 		ReflectanceCoefficient kDiffuse = material.getkDiffuse();

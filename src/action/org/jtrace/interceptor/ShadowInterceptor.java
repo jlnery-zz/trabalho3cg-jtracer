@@ -38,7 +38,9 @@ public class ShadowInterceptor implements TracerInterceptor {
       Hit hitLight = tracer.cast(scene, lightJay);
 
       if (hitLight.isHit()) {
-          return !(hitLight.getT() <= hitPointToLightDistance);
+          object.setInShadow(hitLight.getT() <= hitPointToLightDistance);
+      }else{
+    	  object.setInShadow(false);
       }
       
       return true;
