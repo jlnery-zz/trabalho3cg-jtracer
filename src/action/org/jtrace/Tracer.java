@@ -5,10 +5,16 @@ import static java.util.Arrays.asList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.media.j3d.BoundingBox;
+import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
+
 import org.jtrace.cameras.Camera;
 import org.jtrace.geometry.GeometricObject;
 import org.jtrace.lights.Light;
 import org.jtrace.primitives.ColorRGB;
+import org.jtrace.primitives.Point3D;
+import org.jtrace.primitives.Vector3D;
 import org.jtrace.shader.Shader;
 
 /**
@@ -49,16 +55,56 @@ public class Tracer {
         double tMin = Double.MAX_VALUE;
         GeometricObject hitObject = null;
         Hit hitMin = new Hit();
+        if (scene.getTestBoundingBoxs()) {
+        	for (GeometricObject object : scene.getWithouBoundBox()) {
+				Hit hit = object.hit(jay);
 
-        for (GeometricObject object : scene.getObjects()) {
-            Hit hit = object.hit(jay);
+				if (hit.isHit() && hit.getT() < tMin) {
+					tMin = hit.getT();
+					hitObject = object;
+					hitMin = hit;
+				}
+        	}
+        	for (BoundingBox bb : scene.getBoundingBoxs()) {
+        		Vector3D direction = jay.getDirection();
+        		Vector3d directionJava = new Vector3d(direction.getX(), direction.getY(), direction.getZ());
+        		
+        		Point3D jayOrigin = jay.getOrigin();
+        		Point3d origin = new Point3d(jayOrigin.getX(), jayOrigin.getY(), jayOrigin.getZ());
+        		
+        		
+        		
+        		if (bb.intersect(origin, directionJava)) {
+        			for (GeometricObject object : scene.getObjects()) {
+        				Hit hit = object.hit(jay);
 
-            if (hit.isHit() && hit.getT() < tMin) {
-                tMin = hit.getT();
-                hitObject = object;
-                hitMin = hit;
-            }
-        }
+        				if (hit.isHit() && hit.getT() < tMin) {
+        					tMin = hit.getT();
+        					hitObject = object;
+        					hitMin = hit;
+        				}
+        			}
+				}
+//				Hit hit = object.hit(jay);
+//
+//				if (hit.isHit() && hit.getT() < tMin) {
+//					tMin = hit.getT();
+//					hitObject = object;
+//					hitMin = hit;
+//				}
+        	}
+        	
+		}else{
+			for (GeometricObject object : scene.getObjects()) {
+				Hit hit = object.hit(jay);
+
+				if (hit.isHit() && hit.getT() < tMin) {
+					tMin = hit.getT();
+					hitObject = object;
+					hitMin = hit;
+				}
+			}
+		}
 
 
         hitMin.setObject(hitObject);

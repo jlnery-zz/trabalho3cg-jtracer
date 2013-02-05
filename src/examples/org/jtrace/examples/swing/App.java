@@ -323,7 +323,7 @@ public class App {
 		
 		camera.setZoomFactor(Math.pow(10, new Double(cbZoom.getSelectedIndex())));
 		
-		scene.add(plane2).add(light).setCamera(camera);
+		scene.add(plane2).addWithoutBoundBox(plane2).add(light).setCamera(camera);
 		return scene;
 	}
 
@@ -437,6 +437,7 @@ public class App {
 		for (Triangle t : triangles) {
 			scene.add(t);
 		}
+		scene.add(bb);
 		return scene;
 	}
 }

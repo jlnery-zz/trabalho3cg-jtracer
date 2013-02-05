@@ -5,6 +5,8 @@ import static java.util.Arrays.asList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.media.j3d.BoundingBox;
+
 import org.jtrace.cameras.Camera;
 import org.jtrace.geometry.GeometricObject;
 import org.jtrace.lights.Light;
@@ -12,6 +14,9 @@ import org.jtrace.primitives.ColorRGB;
 
 public class Scene {
     private final Set<GeometricObject> objects = new LinkedHashSet<GeometricObject>();
+	private final Set<GeometricObject> withouBoundBox = new LinkedHashSet<GeometricObject>();
+    private final Set<BoundingBox> boundingBoxs = new LinkedHashSet<BoundingBox>();
+    private final Boolean testBoundingBoxs = true;
     private final Set<Light> lights = new LinkedHashSet<Light>();
     private ColorRGB backgroundColor = ColorRGB.BLACK;
     private Camera camera;
@@ -35,7 +40,17 @@ public class Scene {
         objects.add(object);
         return this;
     }
+    
+    public Scene add(final BoundingBox object) {
+    	boundingBoxs.add(object);
+        return this;
+    }
 
+    public Scene addWithoutBoundBox(final GeometricObject object) {
+    	withouBoundBox.add(object);
+        return this;
+    }
+    
     public Scene add(final GeometricObject... paramObjects) {
         objects.addAll(asList(paramObjects));
         return this;
@@ -62,4 +77,16 @@ public class Scene {
         return this;
     }
 
+	public Boolean getTestBoundingBoxs() {
+		return testBoundingBoxs;
+	}
+
+    public Set<GeometricObject> getWithouBoundBox() {
+		return withouBoundBox;
+	}
+
+	public Set<BoundingBox> getBoundingBoxs() {
+		return boundingBoxs;
+	}
+	
 }
