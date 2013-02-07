@@ -413,25 +413,6 @@ public class App {
 		System.out.println("Upper Corner " + u.toString());
 		
 		BoundingBox bb = new BoundingBox(l, u);
-		
-		for (Triangle t : triangles) {
-			Point3d p = new Point3d(t.getV1().getX(), t.getV1().getY(), t
-					.getV1().getZ());
-			System.out.println("Teste para o ponto: ");
-			System.out.println(p.toString());
-			System.out.println(bb.intersect(p));
-			p = new Point3d(t.getV2().getX(), t.getV2().getY(), t.getV2()
-					.getZ());
-			System.out.println("Teste para o ponto: ");
-			System.out.println(p.toString());
-			System.out.println(bb.intersect(p));
-			p = new Point3d(t.getV3().getX(), t.getV3().getY(), t.getV3()
-					.getZ());
-			System.out.println("Teste para o ponto: ");
-			System.out.println(p.toString());
-			System.out.println(bb.intersect(p));
-		}
-		
 		Scene scene = new Scene();
 
 		for (Triangle t : triangles) {
