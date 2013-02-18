@@ -38,16 +38,14 @@ public class Tracer {
      *         {@link Scene}'s background color if there was no hit.
      */
     public ColorRGB trace(Scene scene, Jay jay) {
-        ColorRGB finalColor = scene.getBackgroundColor();
-
-        Hit hit = cast(scene, jay);
-
+    	ColorRGB finalColor = scene.getBackgroundColor();
+    	Hit hit = cast(scene, jay);
         // if there was a collision, calculate illumination
         if (hit.isHit()) {
             ColorRGB hitColor = shade(scene, jay, hit);
             finalColor = finalColor.add(hitColor);
         }
-
+        
         return finalColor;
     }
 

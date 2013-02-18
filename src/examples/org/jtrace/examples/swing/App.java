@@ -3,6 +3,9 @@ package org.jtrace.examples.swing;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,6 +16,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.media.j3d.BoundingBox;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -50,6 +54,8 @@ public class App {
 	private static JTextField tfTexturePlane;
 	private static JComboBox cbLightColor;
 	private static JComboBox cbCameraType;
+	private static JCheckBox turnBoundingBox;
+	
 
 	public static void main(final String[] args) {
 
@@ -222,7 +228,24 @@ public class App {
 		});
 		panel.add(cbLightColor);
 		
+		JLabel lblBoundingBox = new JLabel("Bounding Box:");
+		lblBoundingBox.setBounds(448, 90, 100, 25);
+		panel.add(lblBoundingBox);	
 		
+		turnBoundingBox = new JCheckBox();
+		turnBoundingBox.setMnemonic(KeyEvent.VK_B); 
+		turnBoundingBox.setSelected(true);
+		turnBoundingBox.setBounds(535, 90, 20, 20);
+		turnBoundingBox.addItemListener(new ItemListener() {	
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				MainWindow.tracePanel.setScene(createScene());
+			}
+		});
+		
+		panel.add(turnBoundingBox);
+	    
+	    		
 		try {
 			window = new MainWindow(ImageIO.read(new File(tfTexturePly
 					.getText())), ImageIO.read(new File(tfTexturePlane
@@ -414,7 +437,8 @@ public class App {
 		
 		BoundingBox bb = new BoundingBox(l, u);
 		Scene scene = new Scene();
-
+		boolean comBoudingBox = turnBoundingBox.isSelected();
+		scene.setTestBoundingBoxs(comBoudingBox);
 		for (Triangle t : triangles) {
 			scene.add(t);
 		}

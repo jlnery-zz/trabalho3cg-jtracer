@@ -13,10 +13,11 @@ import org.jtrace.lights.Light;
 import org.jtrace.primitives.ColorRGB;
 
 public class Scene {
+	
     private final Set<GeometricObject> objects = new LinkedHashSet<GeometricObject>();
 	private final Set<GeometricObject> withouBoundBox = new LinkedHashSet<GeometricObject>();
     private final Set<BoundingBox> boundingBoxs = new LinkedHashSet<BoundingBox>();
-    private final Boolean testBoundingBoxs = true;
+    private Boolean testBoundingBoxs = true;
     private final Set<Light> lights = new LinkedHashSet<Light>();
     private ColorRGB backgroundColor = ColorRGB.BLACK;
     private Camera camera;
@@ -81,6 +82,10 @@ public class Scene {
 		return testBoundingBoxs;
 	}
 
+	public void setTestBoundingBoxs(boolean testBoundingBoxs){
+		this.testBoundingBoxs = testBoundingBoxs;
+	}
+	
     public Set<GeometricObject> getWithouBoundBox() {
 		return withouBoundBox;
 	}
